@@ -3,7 +3,7 @@ import './FeedbackForm.css'; // Import CSS for styling
 
 const FeedbackForm = () => {
 
-    const [formData, setFormData] = useState({name: '', email: '', feedback: '', rating: ''});
+    const [formData, setFormData] = useState({name: '', email: '', feedback: '', rating: '1'});
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -18,9 +18,15 @@ const FeedbackForm = () => {
         if (isConfirmed) {
             console.log('Submitting feedback:', formData);
 
-            setFormData({name: '', email: '', feedback: '', rating: ''});
+            setFormData({name: '', email: '', feedback: '', rating: '1'});
             alert('Thank you for yur valuable feedback!')
         }
+    }
+
+    function handleClick() {
+        const currentRating = Number(formData.rating);
+        const nextRating = currentRating >= 5 ? 1 : currentRating + 1;
+        setFormData({ ...formData, rating: String(nextRating) });
     }
 
     return (
@@ -36,25 +42,8 @@ const FeedbackForm = () => {
             <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange}/>
             <textarea name="feedback" placeholder="Your Feedback" value={formData.feedback} onChange={handleChange}></textarea>
 
-            <div style={{dislay:'flex', gap:'10px', flexDirection:'column'}}>
-                <span>Rate US</span>
-                <p>
-                    <input type="radio" name="rating" value="1" onChange={handleChange}/>1
-                </p>
-                <p>
-                    <input type="radio" name="rating" value="2" onChange={handleChange}/>2
-                </p>
-                <p>
-                    <input type="radio" name="rating" value="3" onChange={handleChange}/>3
-                </p>
-                <p>
-                    <input type="radio" name="rating" value="41" onChange={handleChange}/>4
-                </p>
-                <p>
-                    <input type="radio" name="rating" value="5" onChange={handleChange}/>5
-                </p>
+            <p>Rating<input type="button" value={formData.rating} onClick={handleClick} style={{ width: 30, height: 30, fontSize: 16, cursor: 'pointer' }}/></p>
 
-            </div>
 
             <button type="submit">Submit Feedback</button>
             
